@@ -1,0 +1,53 @@
+# depslib dependency file v1.0
+1298652006 source:/home/eugene/Программирование/cpp/diplom/src/main.cpp
+	"algorithm/Algorithm.h"
+	"tests.h"
+	<cstdlib>
+	<iostream>
+
+1298654836 /home/eugene/Программирование/cpp/diplom/src/algorithm/Algorithm.h
+	"ProhibitionAutomatonState.h"
+	"ProhibitionsHelper.h"
+	"../DeterministicAutomaton.h"
+	"../Utils.h"
+	<deque>
+	<vector>
+
+1298652007 /home/eugene/Программирование/cpp/diplom/src/algorithm/ProhibitionAutomatonState.h
+	<deque>
+	<set>
+
+1298654836 /home/eugene/Программирование/cpp/diplom/src/algorithm/ProhibitionsHelper.h
+	<map>
+	<vector>
+	"ProhibitionAutomatonState.h"
+	"../DeterministicAutomaton.h"
+	"../Utils.h"
+
+1298961783 /home/eugene/Программирование/cpp/diplom/src/DeterministicAutomaton.h
+	"IntegerFunction.h"
+	<cassert>
+
+1298652006 /home/eugene/Программирование/cpp/diplom/src/IntegerFunction.h
+	<cassert>
+	<vector>
+
+1298654035 /home/eugene/Программирование/cpp/diplom/src/Utils.h
+
+1298961783 /home/eugene/Программирование/cpp/diplom/src/tests.h
+	"AutomatonWithInputOutputMemory.h"
+	"BooleanFunction.h"
+	<boost/test/unit_test.hpp>
+
+1298652006 /home/eugene/Программирование/cpp/diplom/src/AutomatonWithInputOutputMemory.h
+	"BooleanFunction.h"
+	"DeterministicAutomaton.h"
+	<memory>
+
+1298652006 /home/eugene/Программирование/cpp/diplom/src/BooleanFunction.h
+	"BinaryArray.h"
+	<cassert>
+
+1298652006 /home/eugene/Программирование/cpp/diplom/src/BinaryArray.h
+	<vector>
+
