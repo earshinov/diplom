@@ -1,29 +1,19 @@
 #pragma once
 
+#include "AddProhibitionAutomatonStateRet.h"
 #include "ProhibitionAutomaton.h"
 #include "ProhibitionAutomatonStateIndexed.h"
 #include "ProhibitionAutomatonTransitionFunctionBuilder.h"
-#include "../DeterministicTransducerAutomaton.h"
+#include "../../DeterministicTransducerAutomaton.h"
 
 class ProhibitionAutomatonBuilder {
-public:
-
-	struct AddStateRet {
-
-		AddStateRet(bool inserted, int index):
-			inserted(inserted), index(index) {}
-
-		const bool inserted;
-		const int index;
-	};
-
 public:
 
 	ProhibitionAutomatonBuilder(const DeterministicTransducerAutomaton & sourceAutomaton):
 		stateSetSize(0), inputSetSize(sourceAutomaton.outputSetSize),
 		states(), statesByIndex(), transitionFunctionBuilder(inputSetSize) {}
 
-	AddStateRet addState(const ProhibitionAutomatonState & state) {
+	AddProhibitionAutomatonStateRet addState(const ProhibitionAutomatonState & state) {
 		auto result = states.insert(ProhibitionAutomatonStateIndexed(stateSetSize, state));
 		bool inserted = result.second;
 		int index;
@@ -35,7 +25,7 @@ public:
 			statesByIndex.push_back(&*(result.first));
 			transitionFunctionBuilder.addState();
 		}
-		return AddStateRet(inserted, index);
+		return AddProhibitionAutomatonStateRet(inserted, index);
 	}
 
 	void setTransition(int sourceIndex, int sourceAutomatonOutput, int targetIndex) {

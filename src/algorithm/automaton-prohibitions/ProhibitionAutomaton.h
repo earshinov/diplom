@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProhibitionAutomatonStateIndexed.h"
-#include "../DeterministicRecognizerAutomaton.h"
+#include "../../DeterministicRecognizerAutomaton.h"
 #include <cassert>
 #include <vector>
 #include <set>

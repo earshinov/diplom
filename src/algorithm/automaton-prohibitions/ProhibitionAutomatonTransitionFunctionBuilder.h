@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IntegerFunction.h"
+#include "../../IntegerFunction.h"
 
 class ProhibitionAutomatonTransitionFunctionBuilder {
 public:

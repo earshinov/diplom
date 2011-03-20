@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProhibitionAutomatonState.h"
-#include "../Utils.h"
+#include "../../Utils.h"
 
 struct ProhibitionAutomatonStateIndexed {
 
