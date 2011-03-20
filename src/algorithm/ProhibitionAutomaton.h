@@ -17,7 +17,8 @@ public:
 
 	ProhibitionAutomaton(int inputSetSize, const IntegerFunction & transitionFunction,
 		const stateset_t & states, const statesbyindex_t & statesByIndex):
-		DeterministicRecognizerAutomaton(inputSetSize, static_cast<int>(states.size()), transitionFunction),
+		DeterministicRecognizerAutomaton(inputSetSize, static_cast<int>(states.size()), transitionFunction,
+			acceptingstates_t(states.size(), true)), // все состояния являются допускающими
 		states(states), statesByIndex(statesByIndex)
 	{
 		assert(states.size() == statesByIndex.size());
