@@ -1,4 +1,4 @@
-#include "../algorithm/Algorithm.h"
+#include "../algorithm/AutomatonProhibitions.h"
 #include "../BooleanFunction.h"
 
 #include <boost/test/unit_test.hpp>
@@ -61,7 +61,7 @@ DeterministicTransducerAutomaton createProhibitionExample() {
 BOOST_AUTO_TEST_CASE(testEmpty)
 {
 	DeterministicTransducerAutomaton automaton(createEmpty());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 0);
 	BOOST_CHECK(ret.automaton.stateSetSize == 1);
@@ -72,13 +72,13 @@ BOOST_AUTO_TEST_CASE(testEmpty)
 
 BOOST_AUTO_TEST_CASE(testEmptyFast)
 {
-	BOOST_CHECK(! Algorithm::automatonHasProhibitions(createEmpty()));
+	BOOST_CHECK(! AutomatonProhibitions::automatonHasProhibitions(createEmpty()));
 }
 
 BOOST_AUTO_TEST_CASE(testSingleStateNoTransitions)
 {
 	DeterministicTransducerAutomaton automaton(createSingleStateNoTransitions());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 0);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
@@ -91,13 +91,13 @@ BOOST_AUTO_TEST_CASE(testSingleStateNoTransitions)
 
 BOOST_AUTO_TEST_CASE(testSingleStateNoTransitionsFast)
 {
-	BOOST_CHECK(! Algorithm::automatonHasProhibitions(createSingleStateNoTransitions()));
+	BOOST_CHECK(! AutomatonProhibitions::automatonHasProhibitions(createSingleStateNoTransitions()));
 }
 
 BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition)
 {
 	DeterministicTransducerAutomaton automaton(createSingleStateSingleTransition());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 1);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
@@ -110,13 +110,13 @@ BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition)
 
 BOOST_AUTO_TEST_CASE(testSingleStateSingleTransitionFast)
 {
-	BOOST_CHECK(! Algorithm::automatonHasProhibitions(createSingleStateSingleTransition()));
+	BOOST_CHECK(! AutomatonProhibitions::automatonHasProhibitions(createSingleStateSingleTransition()));
 }
 
 BOOST_AUTO_TEST_CASE(testTwoStatesCycle)
 {
 	DeterministicTransducerAutomaton automaton(createTwoStatesCycle());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 1);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
@@ -129,13 +129,13 @@ BOOST_AUTO_TEST_CASE(testTwoStatesCycle)
 
 BOOST_AUTO_TEST_CASE(testTwoStatesCycleFast)
 {
-	BOOST_CHECK(! Algorithm::automatonHasProhibitions(createTwoStatesCycle()));
+	BOOST_CHECK(! AutomatonProhibitions::automatonHasProhibitions(createTwoStatesCycle()));
 }
 
 BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition)
 {
 	DeterministicTransducerAutomaton automaton(createTwoStatesWithProhibition());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 4);
@@ -163,13 +163,13 @@ BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition)
 
 BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibitionFast)
 {
-	BOOST_CHECK(Algorithm::automatonHasProhibitions(createTwoStatesWithProhibition()));
+	BOOST_CHECK(AutomatonProhibitions::automatonHasProhibitions(createTwoStatesWithProhibition()));
 }
 
 BOOST_AUTO_TEST_CASE(testOriginalExample)
 {
 	DeterministicTransducerAutomaton automaton(createOriginalExample());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 5);
@@ -203,13 +203,13 @@ BOOST_AUTO_TEST_CASE(testOriginalExample)
 
 BOOST_AUTO_TEST_CASE(testOriginalExampleFast)
 {
-	BOOST_CHECK(! Algorithm::automatonHasProhibitions(createOriginalExample()));
+	BOOST_CHECK(! AutomatonProhibitions::automatonHasProhibitions(createOriginalExample()));
 }
 
 BOOST_AUTO_TEST_CASE(testProhibitionExample)
 {
 	DeterministicTransducerAutomaton automaton(createProhibitionExample());
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 8);
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE(testProhibitionExample)
 
 BOOST_AUTO_TEST_CASE(testProhibitionExampleFast)
 {
-	BOOST_CHECK(Algorithm::automatonHasProhibitions(createProhibitionExample()));
+	BOOST_CHECK(AutomatonProhibitions::automatonHasProhibitions(createProhibitionExample()));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

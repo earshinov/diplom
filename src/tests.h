@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(testEmpty) // digraph{ }
 {
 	DeterministicTransducerAutomaton automaton(0, 0, 0,
 		IntegerFunction(std::vector<int>()), IntegerFunction(std::vector<int>()));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 0);
 	BOOST_CHECK(ret.automaton.stateSetSize == 1);
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(testSingleStateNoTransitions) // digraph{ 0 }
 {
 	DeterministicTransducerAutomaton automaton(0, 0, 1,
 		IntegerFunction(std::vector<int>()), IntegerFunction(std::vector<int>()));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 0);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition) // digraph{ 0 -> 0 }
 {
 	DeterministicTransducerAutomaton automaton(1, 1, 1,
 		IntegerFunction(std::vector<int>(1, 0)), IntegerFunction(std::vector<int>(1, 0)));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 1);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(testTwoStatesCycle) // digraph{ 0->1[label='0:0']; 1->0[lab
 	DeterministicTransducerAutomaton automaton(1, 1, 2,
 		IntegerFunction(std::vector<int>(transition, transition+2)),
 		IntegerFunction(std::vector<int>(output, output+2)));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 1);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition) // digraph{ 0->1[label='0:0']
 	DeterministicTransducerAutomaton automaton(1, 2, 2,
 		IntegerFunction(std::vector<int>(transition, transition+2)),
 		IntegerFunction(std::vector<int>(output, output+2)));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 4);
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE(testOriginalExample)
 	DeterministicTransducerAutomaton automaton(2, 2, 4,
 		IntegerFunction(std::vector<int>(transition, transition+8)),
 		IntegerFunction(std::vector<int>(output, output+8)));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(!ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 5);
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE(testProhibitionExample)
 	DeterministicTransducerAutomaton automaton(2, 2, 4,
 		IntegerFunction(std::vector<int>(transition, transition+8)),
 		IntegerFunction(std::vector<int>(output, output+8)));
-	Algorithm::AutomatonProhibitionsRet ret = Algorithm::findAutomatonProhibitions(automaton);
+	AutomatonProhibitions::AutomatonProhibitionsRet ret = AutomatonProhibitions::findAutomatonProhibitions(automaton);
 	BOOST_CHECK(ret.hasProhibitions);
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 8);

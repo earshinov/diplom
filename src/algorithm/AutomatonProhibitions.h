@@ -10,7 +10,7 @@
 #include <map>
 #include <vector>
 
-class Algorithm {
+class AutomatonProhibitions {
 public:
 
 	struct AutomatonProhibitionsRet {
