@@ -17,6 +17,7 @@ public:
 	}
 
 	IntegerFunction getResult() const {
+		// TODO: Check if all transitions are filled
 		return IntegerFunction(values);
 	}
 
