@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BooleanFunction.h"
-#include "DeterministicAutomaton.h"
+#include "DeterministicTransducerAutomaton.h"
 
 #include <memory>
 
