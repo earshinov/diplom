@@ -148,6 +148,10 @@ private:
 class AutomatonDelay {
 public:
 
+	// TODO: на самом деле алгоритм определения задержек можно кардинально упростить.  Этапы
+	// построения автомата и его обхода можно легко объединить, превратив алгоритм в простейшую
+	// рекурсию с мемоизацией.  Автомат можно будет извести совсем.
+	// Конечно, такой способ не пройдёт, если явный автомат всё-таки нужен.
 	static AutomatonDelayRet findAutomatonDelay(const DeterministicTransducerAutomaton & sourceAutomaton) {
 		AutomatonDelayCalculation calc(sourceAutomaton.stateSetSize);
 
