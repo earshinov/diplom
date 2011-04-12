@@ -35,18 +35,18 @@ public:
 	}
 
 	void addChild(int childIndex) const {
-		children.push_back(childIndex);
+		children.insert(childIndex);
 	}
 
 	void addParent(int parentIndex) const {
-		parents.push_back(parentIndex);
+		parents.insert(parentIndex);
 	}
 
 	const int sourceState;
 	const int sourceState2; // may be -1
 
-	mutable std::deque<int> parents;
-	mutable std::deque<int> children;
+	mutable std::set<int> parents;
+	mutable std::set<int> children;
 	mutable bool inCycle;
 };
 
