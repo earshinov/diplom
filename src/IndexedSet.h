@@ -25,6 +25,10 @@ public:
 		return InsertRet(ret.first->index, ret.first->object, ret.second);
 	}
 
+	size_t size() const {
+		return byIndex.size();
+	}
+
 	T & get(int index) {
 		return *byIndex[index];
 	}
