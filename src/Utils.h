@@ -12,9 +12,17 @@
 #define FOREACH_END() } }
 
 #define IMPLEMENT_COMPARE(type) \
-bool operator<(const type & first, const type & second) { return first.compareTo(second) < 0; } \
-bool operator<=(const type & first, const type & second) { return first.compareTo(second) <= 0; } \
-bool operator==(const type & first, const type & second) { return first.compareTo(second) == 0; } \
-bool operator!=(const type & first, const type & second) { return first.compareTo(second) != 0; } \
-bool operator>=(const type & first, const type & second) { return first.compareTo(second) >= 0; } \
-bool operator>(const type & first, const type & second) { return first.compareTo(second) > 0; }
+inline bool operator<(const type & first, const type & second) { return first.compareTo(second) < 0; } \
+inline bool operator<=(const type & first, const type & second) { return first.compareTo(second) <= 0; } \
+inline bool operator==(const type & first, const type & second) { return first.compareTo(second) == 0; } \
+inline bool operator!=(const type & first, const type & second) { return first.compareTo(second) != 0; } \
+inline bool operator>=(const type & first, const type & second) { return first.compareTo(second) >= 0; } \
+inline bool operator>(const type & first, const type & second) { return first.compareTo(second) > 0; }
+
+template <typename Iterator, typename F>
+void foreach_2_tuples(Iterator begin, Iterator end, F func) {
+	for (Iterator first = begin; first != end; ++first)
+		for (Iterator second = begin; second != end; ++second)
+			if (first != second)
+				func(*first, *second);
+}
