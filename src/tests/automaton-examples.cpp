@@ -51,3 +51,11 @@ DeterministicTransducerAutomaton createProhibitionExample() {
 		IntegerFunction(std::vector<int>(transition, transition+8)),
 		IntegerFunction(std::vector<int>(output, output+8)));
 }
+
+DeterministicTransducerAutomaton createFiniteDelayExample() {
+	int transition[] = { 1, 2,  3, 4,  0, 1,  4, 4,  2, 2,  }; // (state, input) -> state
+	int output[] = { 0, 0,  0, 0,  1, 1,  2, 3,  2, 3, };
+	return DeterministicTransducerAutomaton(2, 4, 5,
+		IntegerFunction(std::vector<int>(transition, transition+10)),
+		IntegerFunction(std::vector<int>(output, output+10)));
+}

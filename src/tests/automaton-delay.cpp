@@ -61,4 +61,15 @@ BOOST_AUTO_TEST_CASE(testProhibitionExample)
 	BOOST_CHECK_EQUAL(ret.automatonDelay, AUTOMATON_DELAY_INF);
 }
 
+BOOST_AUTO_TEST_CASE(testFiniteDelayExample)
+{
+	auto ret = AutomatonDelay::findAutomatonDelay(createFiniteDelayExample());
+	BOOST_CHECK_EQUAL(ret.delayByState[0], 1);
+	BOOST_CHECK_EQUAL(ret.delayByState[1], 2);
+	BOOST_CHECK_EQUAL(ret.delayByState[2], 2);
+	BOOST_CHECK_EQUAL(ret.delayByState[3], 0);
+	BOOST_CHECK_EQUAL(ret.delayByState[4], 0);
+	BOOST_CHECK_EQUAL(ret.automatonDelay, 2);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

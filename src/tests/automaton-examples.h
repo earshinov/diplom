@@ -20,3 +20,5 @@ DeterministicTransducerAutomaton createTwoStatesWithProhibition();
 DeterministicTransducerAutomaton createOriginalExample();
 
 DeterministicTransducerAutomaton createProhibitionExample();
+
+DeterministicTransducerAutomaton createFiniteDelayExample();
