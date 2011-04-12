@@ -25,11 +25,11 @@ class AutomatonDelayAutomatonState {
 public:
 
 	AutomatonDelayAutomatonState(int sourceState):
-		sourceState(sourceState), sourceState2(-1), parents(), children(),
+		sourceState(sourceState), sourceState2(-1), children(),
 		delay(AUTOMATON_DELAY_UNKNOWN) { }
 
 	AutomatonDelayAutomatonState(int state1, int state2):
-		sourceState(state1), sourceState2(state2), parents(), children(),
+		sourceState(state1), sourceState2(state2), children(),
 		delay(AUTOMATON_DELAY_UNKNOWN) { }
 
 	bool hasSourceState2() const {
@@ -47,14 +47,9 @@ public:
 		children.insert(childIndex);
 	}
 
-	void addParent(int parentIndex) {
-		parents.insert(parentIndex);
-	}
-
 	const int sourceState;
 	const int sourceState2; // may be -1
 
-	std::set<int> parents;
 	std::set<int> children;
 	int delay;
 };
@@ -78,7 +73,6 @@ public:
 
 	void addStateToProcess(const AutomatonDelayAutomatonState & state, int parentIndex) {
 		auto ret = states.insert(state);
-		ret.object.addParent(parentIndex);
 		getStateByIndex(parentIndex).addChild(ret.index);
 		if (ret.inserted) indexesToProcess.push_back(ret.index);
 	}
