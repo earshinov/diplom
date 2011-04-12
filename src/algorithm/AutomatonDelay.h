@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../DeterministicTransducerAutomaton.h"
+#include "../IndexedSet.h"
 #include "../Utils.h"
 
 #include <deque>
@@ -15,9 +16,6 @@ public:
 };
 
 
-// Приходится использовать mutable, потому что экземпляры этого класса мы помещаем внутри set,
-// который выдаёт обратно только константные ссылки.  Естественно, те поля, которые участвуют в
-// сравнении (метод compareTo), не должны быть mutable.
 class AutomatonDelayAutomatonState {
 public:
 
@@ -34,20 +32,20 @@ public:
 		return sourceState2 - other.sourceState2;
 	}
 
-	void addChild(int childIndex) const {
+	void addChild(int childIndex) {
 		children.insert(childIndex);
 	}
 
-	void addParent(int parentIndex) const {
+	void addParent(int parentIndex) {
 		parents.insert(parentIndex);
 	}
 
 	const int sourceState;
 	const int sourceState2; // may be -1
 
-	mutable std::set<int> parents;
-	mutable std::set<int> children;
-	mutable bool inCycle;
+	std::set<int> parents;
+	std::set<int> children;
+	bool inCycle;
 };
 
 IMPLEMENT_COMPARE(AutomatonDelayAutomatonState)
@@ -57,23 +55,22 @@ class AutomatonDelayCalculation {
 public:
 
 	AutomatonDelayCalculation(int nSourceStates):
-		nStates(0), states(), statesByIndex(), indexesToProcess(),
-		delayByState(nSourceStates, DELAY_UNKNOWN) { }
+		states(), indexesToProcess(), delayByState(nSourceStates, DELAY_UNKNOWN) { }
 
 	int addStartingState(const AutomatonDelayAutomatonState & state) {
-		auto insertedIter = states.insert(state).first;
-		statesByIndex.push_back(&*insertedIter);
-		return nStates++;
+		auto ret = states.insert(state);
+		assert(ret.inserted);
+		return ret.index;
 	}
 
-	int addStateToProcess(const AutomatonDelayAutomatonState & state) {
-		auto insertedIter = states.insert(state).first;
-		statesByIndex.push_back(&*insertedIter);
-		return nStates++;
+	int addStateToProcess(const AutomatonDelayAutomatonState & state, int parentIndex) {
+		auto ret = states.insert(state);
+		ret.object.addParent(parentIndex);
+		return ret.index;
 	}
 
 	const AutomatonDelayAutomatonState & getStateByIndex(int index) const {
-		return *statesByIndex[index];
+		return states.get(index);
 	}
 
 	void setStateDelay(int sourceState, int delay) {
@@ -89,9 +86,7 @@ public:
 
 private:
 
-	int nStates;
-	std::set<AutomatonDelayAutomatonState> states;
-	std::deque<const AutomatonDelayAutomatonState *> statesByIndex;
+	IndexedSet<AutomatonDelayAutomatonState> states;
 	std::deque<int> indexesToProcess;
 	std::deque<int> delayByState; // integer >= 0 | DELAY_*
 };
@@ -136,9 +131,7 @@ public:
 
 		//TODO: связывать через parents и children
 		foreach_2_tuples(targetStates.begin(), targetStates.end(), [&](int state1, int state2) {
-			AutomatonDelayAutomatonState state(state1, state2);
-			state.addParent(parentIndex);
-			int index = calc.addStateToProcess(state);
+			int index = calc.addStateToProcess(AutomatonDelayAutomatonState(state1, state2), parentIndex);
 			parent.addChild(index);
 		} );
 	}

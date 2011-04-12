@@ -19,6 +19,14 @@ inline bool operator!=(const type & first, const type & second) { return first.c
 inline bool operator>=(const type & first, const type & second) { return first.compareTo(second) >= 0; } \
 inline bool operator>(const type & first, const type & second) { return first.compareTo(second) > 0; }
 
+#define IMPLEMENT_MEMBER_COMPARE(type) \
+bool operator<(const type & other) const { return compareTo(other) < 0; } \
+bool operator<=(const type & other) const { return compareTo(other) <= 0; } \
+bool operator==(const type & other) const { return compareTo(other) == 0; } \
+bool operator!=(const type & other) const { return compareTo(other) != 0; } \
+bool operator>=(const type & other) const { return compareTo(other) >= 0; } \
+bool operator>(const type & other) const { return compareTo(other) > 0; }
+
 template <typename Iterator, typename F>
 void foreach_2_tuples(Iterator begin, Iterator end, F func) {
 	for (Iterator first = begin; first != end; ++first)
