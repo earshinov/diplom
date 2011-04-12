@@ -9,9 +9,9 @@ BOOST_AUTO_TEST_CASE(testOriginalExample)
 {
 	auto ret = AutomatonDelay::findAutomatonDelay(createOriginalExample());
 	BOOST_CHECK_EQUAL(ret.delayByState[0], AutomatonDelay::DELAY_INF);
-	BOOST_CHECK_EQUAL(ret.delayByState[0], 0);
-	BOOST_CHECK_EQUAL(ret.delayByState[0], 0);
-	BOOST_CHECK_EQUAL(ret.delayByState[0], AutomatonDelay::DELAY_INF);
+	BOOST_CHECK_EQUAL(ret.delayByState[1], 0);
+	BOOST_CHECK_EQUAL(ret.delayByState[2], 0);
+	BOOST_CHECK_EQUAL(ret.delayByState[3], AutomatonDelay::DELAY_INF);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, AutomatonDelay::DELAY_INF);
 }
 
