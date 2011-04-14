@@ -33,6 +33,11 @@ public:
 		return *byIndex[index];
 	}
 
+	int find(const T & object) const {
+		auto it = set.find(Indexed(object, -1));
+		return it == set.end() ? -1 : it->index;
+	}
+
 	const T & get(int index) const {
 		return *byIndex[index];
 	}

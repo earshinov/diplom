@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ProhibitionAutomatonStateIndexed.h"
+#include "ProhibitionAutomatonState.h"
 #include "../../DeterministicRecognizerAutomaton.h"
+#include "../../IndexedSet.h"
 #include <cassert>
 #include <vector>
 #include <set>
@@ -10,27 +11,21 @@ class ProhibitionAutomaton: public DeterministicRecognizerAutomaton
 {
 public:
 
-	typedef std::set<ProhibitionAutomatonStateIndexed> stateset_t;
-	typedef std::vector<const ProhibitionAutomatonStateIndexed *> statesbyindex_t;
+	typedef IndexedSet<ProhibitionAutomatonState> stateset_t;
 
 public:
 
-	ProhibitionAutomaton(int inputSetSize, const IntegerFunction & transitionFunction,
-		const stateset_t & states, const statesbyindex_t & statesByIndex):
-		DeterministicRecognizerAutomaton(inputSetSize, static_cast<int>(states.size()), transitionFunction,
-			acceptingstates_t(states.size(), true)), // все состояния являются допускающими
-		states(states), statesByIndex(statesByIndex)
-	{
-		assert(states.size() == statesByIndex.size());
-	}
+	ProhibitionAutomaton(int inputSetSize, const IntegerFunction & transitionFunction, const stateset_t & states):
+		DeterministicRecognizerAutomaton(inputSetSize, static_cast<int>(states.size()),
+			transitionFunction, acceptingstates_t(states.size(), true)), // все состояния являются допускающими
+		states(states) { }
 
 	int findState(const ProhibitionAutomatonState::sourcestateset_t & sourceStates) const {
 		return findState(ProhibitionAutomatonState(sourceStates));
 	}
 
 	int findState(const ProhibitionAutomatonState & state) const {
-		auto it = states.find(ProhibitionAutomatonStateIndexed(-1, state));
-		return it == states.end() ? -1 : it->index;
+		return states.find(state);
 	}
 
 	bool hasState(const ProhibitionAutomatonState::sourcestateset_t & sourceStates) const {
@@ -48,5 +43,4 @@ public:
 private:
 
 	stateset_t states;
-	statesbyindex_t statesByIndex;
 };

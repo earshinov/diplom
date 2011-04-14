@@ -4,6 +4,7 @@
 #include "automaton-prohibitions/ProhibitionAutomatonBuilder.h"
 #include "automaton-prohibitions/ProhibitionAutomatonState.h"
 #include "../DeterministicTransducerAutomaton.h"
+#include "../IndexedSet.h"
 #include "../Utils.h"
 
 #include <deque>
@@ -54,26 +55,15 @@ private:
 		typedef class Builder {
 		public:
 
-			Builder(const DeterministicTransducerAutomaton & sourceAutomaton):
-				index(0), states(), statesByIndex() { }
+			Builder(const DeterministicTransducerAutomaton & sourceAutomaton): states() { }
 
 			AddProhibitionAutomatonStateRet addState(const ProhibitionAutomatonState & state) {
-				states_t::iterator it = states.find(state);
-				bool insert = it == states.end();
-				int thisIndex;
-				if (!insert)
-					thisIndex = it->second;
-				else {
-					it = states.insert(it, std::make_pair(state, index));
-					statesByIndex.push_back(&it->first);
-					thisIndex = index;
-					index++;
-				}
-				return AddProhibitionAutomatonStateRet(insert, thisIndex);
+				auto ret = states.insert(state);
+				return AddProhibitionAutomatonStateRet(ret.inserted, ret.index);
 			}
 
 			const ProhibitionAutomatonState & getStateByIndex(int index) const {
-				return *statesByIndex[index];
+				return states.get(index);
 			}
 
 			void setTransition(int sourceIndex, int sourceAutomatonOutput, int targetIndex) { }
@@ -82,13 +72,7 @@ private:
 
 		private:
 
-			int index;
-
-			typedef std::map<ProhibitionAutomatonState, int> states_t;
-			states_t states;
-
-			typedef std::deque<const ProhibitionAutomatonState *> statesbyindex_t;
-			statesbyindex_t statesByIndex;
+			IndexedSet<ProhibitionAutomatonState> states;
 
 		} builder_t;
 
