@@ -22,3 +22,8 @@ DeterministicTransducerAutomaton createOriginalExample();
 DeterministicTransducerAutomaton createProhibitionExample();
 
 DeterministicTransducerAutomaton createFiniteDelayExample();
+
+// Автомат, соответствующий АВВП : L=3 | M=0 | f=0101010101101010
+// В приложении 2 практических данных для него указано максимальное число прообразов = бескон.
+// Проводя расчёты вручную, я получаю число прообразов = 8.
+DeterministicTransducerAutomaton createFiniteMaxPreimageCountExample();
