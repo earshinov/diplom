@@ -3,11 +3,8 @@
 #define FOREACH_RANGE(vartype, var, count) { \
 	for (vartype var = 0; var < count; ++var) {
 
-#define FOREACH_ITER(var, container) { auto cont = container; \
-	for (auto it = cont.begin(), end = cont.end(); it != end; ++it) {
-
-#define FOREACH(vardecl, container) { auto cont = container; \
-	for (auto it = cont.begin(), end = cont.end(); it != end; ++it) { vardecl = *it;
+#define FOREACH(vartype, var, container) { auto cont = container; \
+	for (auto it = cont.begin(), end = cont.end(); it != end; ++it) { vartype var = *it;
 
 #define FOREACH_END() } }
 

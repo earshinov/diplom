@@ -75,7 +75,7 @@ private:
 			FOREACH_RANGE(size_t, state, counts.size())
 				int count = counts[state];
 				if (count > 0)
-					FOREACH(int state2, transitionsByOutput[state][output])
+					FOREACH(int, state2, transitionsByOutput[state][output])
 						ret[state2] += count;
 						*sum += count;
 					FOREACH_END()

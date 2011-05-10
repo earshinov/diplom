@@ -114,7 +114,7 @@ private:
 			std::vector<ProhibitionAutomatonState::sourcestateset_t> newStatesData(sourceAutomaton.outputSetSize);
 
 			FOREACH_RANGE(int, input, sourceAutomaton.inputSetSize)
-				FOREACH(int sourceState, state.sourceStates())
+				FOREACH(int, sourceState, state.sourceStates())
 					DeterministicTransducerAutomaton::Transition t = sourceAutomaton.transition(sourceState, input);
 					newStatesData[t.output].insert(t.state);
 				FOREACH_END()
