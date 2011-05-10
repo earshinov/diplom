@@ -38,13 +38,13 @@ BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition)
 BOOST_AUTO_TEST_CASE(testOriginalExample)
 {
 	int ret = AutomatonMaxPreimageCount::findMaxPreimageCount(createOriginalExample());
-	BOOST_CHECK_EQUAL(ret, AutomatonMaxPreimageCount::PROBABLY_INF);
+	BOOST_CHECK_EQUAL(ret, AutomatonMaxPreimageCount::INF);
 }
 
 BOOST_AUTO_TEST_CASE(testProhibitionExample)
 {
 	int ret = AutomatonMaxPreimageCount::findMaxPreimageCount(createProhibitionExample());
-	BOOST_CHECK_EQUAL(ret, AutomatonMaxPreimageCount::PROBABLY_INF);
+	BOOST_CHECK_EQUAL(ret, AutomatonMaxPreimageCount::INF);
 }
 
 BOOST_AUTO_TEST_CASE(testFiniteDelayExample)

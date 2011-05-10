@@ -1,3 +1,3 @@
 #include "AutomatonMaxPreimageCount.h"
 
-/* static */ const int AutomatonMaxPreimageCount::PROBABLY_INF = -1;
+/* static */ const int AutomatonMaxPreimageCount::INF = -1;
