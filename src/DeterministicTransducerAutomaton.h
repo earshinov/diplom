@@ -3,6 +3,7 @@
 #include "IntegerFunction.h"
 
 #include <cassert>
+#include <iostream>
 
 class DeterministicTransducerAutomaton {
 public:
@@ -43,3 +44,19 @@ private:
 	IntegerFunction transitionFunction;
 	IntegerFunction outputFunction;
 };
+
+inline bool operator==(
+	const DeterministicTransducerAutomaton::Transition & first,
+	const DeterministicTransducerAutomaton::Transition & second) {
+	return first.state == second.state && first.output == second.output;
+}
+inline bool operator!=(
+	const DeterministicTransducerAutomaton::Transition & first,
+	const DeterministicTransducerAutomaton::Transition & second) {
+	return !(first == second);
+}
+
+inline std::ostream & operator<<(std::ostream & out,
+	const DeterministicTransducerAutomaton::Transition & trans) {
+	return out << "Transition(state=" << trans.state << ",output=" << trans.output << ")";
+}
