@@ -10,7 +10,8 @@ public:
 
 public:
 
-	IntegerFunction(const values_t values): values(values) {}
+	IntegerFunction(const values_t & values) : values(values) {}
+	IntegerFunction(const values_t && values) : values(values) {}
 
 	size_t size() const {
 		return values.size();
@@ -22,5 +23,5 @@ public:
 
 private:
 
-	const std::vector<int> values;
+	const values_t values;
 };
