@@ -35,9 +35,10 @@ struct AutomatonDelayRet {
 
 	std::deque<int> delayByState;
 	int automatonDelay;
+	bool hasInformationLoss;
 
-	AutomatonDelayRet(const std::deque<int> & delayByState, int automatonDelay) :
-		delayByState(delayByState), automatonDelay(automatonDelay) { }
+	AutomatonDelayRet(const std::deque<int> & delayByState, int automatonDelay, bool hasInformationLoss) :
+		delayByState(delayByState), automatonDelay(automatonDelay), hasInformationLoss(hasInformationLoss) { }
 };
 
 
@@ -82,7 +83,8 @@ public:
 
 	AutomatonDelayCalculation(int nSourceStates):
 		states(), startingStateIndexes(), indexesToProcess(),
-		delayByState(nSourceStates, AUTOMATON_DELAY_UNKNOWN) { }
+		delayByState(nSourceStates, AUTOMATON_DELAY_UNKNOWN),
+		hasInformationLoss(false) { }
 
 	int addStartingState(const AutomatonDelayAutomatonState & state) {
 		auto ret = states.insert(state);
@@ -94,7 +96,12 @@ public:
 	void addStateToProcess(const AutomatonDelayAutomatonState & state, int parentIndex) {
 		auto ret = states.insert(state);
 		getStateByIndex(parentIndex).addChild(ret.index);
-		if (ret.inserted) indexesToProcess.push_back(ret.index);
+		if (ret.inserted) {
+			indexesToProcess.push_back(ret.index);
+			/* необходимое и достаточное условие наличия потерь информации - наличие пары (q,q) */
+			if (state.sourceState == state.sourceState2)
+				hasInformationLoss = true;
+		}
 	}
 
 	bool hasStatesToProcess() const {
@@ -121,7 +128,7 @@ public:
 			calculateStateDelay(state);
 			delayByState[state.sourceState] = state.delay;
 		FOREACH_END()
-		return AutomatonDelayRet(delayByState, calculateAutomatonDelay());
+		return AutomatonDelayRet(delayByState, calculateAutomatonDelay(), hasInformationLoss);
 	}
 
 private:
@@ -162,6 +169,7 @@ private:
 	std::deque<int> startingStateIndexes;
 	std::deque<int> indexesToProcess;
 	std::deque<int> delayByState; // integer >= 0 | DELAY_*
+	bool hasInformationLoss;
 };
 
 

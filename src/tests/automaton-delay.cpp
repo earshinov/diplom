@@ -9,6 +9,7 @@ BOOST_AUTO_TEST_CASE(testEmpty)
 {
 	auto ret = AutomatonDelay::findAutomatonDelay(createEmpty());
 	BOOST_CHECK_EQUAL(ret.automatonDelay, 0);
+	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testSingleStateNoTransitions)
@@ -16,6 +17,7 @@ BOOST_AUTO_TEST_CASE(testSingleStateNoTransitions)
 	auto ret = AutomatonDelay::findAutomatonDelay(createSingleStateNoTransitions());
 	BOOST_CHECK_EQUAL(ret.delayByState[0], 0);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, 0);
+	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition)
@@ -23,6 +25,7 @@ BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition)
 	auto ret = AutomatonDelay::findAutomatonDelay(createSingleStateSingleTransition());
 	BOOST_CHECK_EQUAL(ret.delayByState[0], 0);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, 0);
+	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testTwoStatesCycle)
@@ -31,6 +34,7 @@ BOOST_AUTO_TEST_CASE(testTwoStatesCycle)
 	BOOST_CHECK_EQUAL(ret.delayByState[0], 0);
 	BOOST_CHECK_EQUAL(ret.delayByState[1], 0);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, 0);
+	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition)
@@ -39,6 +43,7 @@ BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition)
 	BOOST_CHECK_EQUAL(ret.delayByState[0], 0);
 	BOOST_CHECK_EQUAL(ret.delayByState[1], 0);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, 0);
+	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testOriginalExample)
@@ -49,6 +54,7 @@ BOOST_AUTO_TEST_CASE(testOriginalExample)
 	BOOST_CHECK_EQUAL(ret.delayByState[2], 0);
 	BOOST_CHECK_EQUAL(ret.delayByState[3], AUTOMATON_DELAY_INF);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, AUTOMATON_DELAY_INF);
+	BOOST_CHECK(ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testProhibitionExample)
@@ -59,6 +65,7 @@ BOOST_AUTO_TEST_CASE(testProhibitionExample)
 	BOOST_CHECK_EQUAL(ret.delayByState[2], AUTOMATON_DELAY_INF);
 	BOOST_CHECK_EQUAL(ret.delayByState[3], 0);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, AUTOMATON_DELAY_INF);
+	BOOST_CHECK(ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_CASE(testFiniteDelayExample)
@@ -70,6 +77,7 @@ BOOST_AUTO_TEST_CASE(testFiniteDelayExample)
 	BOOST_CHECK_EQUAL(ret.delayByState[3], 0);
 	BOOST_CHECK_EQUAL(ret.delayByState[4], 0);
 	BOOST_CHECK_EQUAL(ret.automatonDelay, 2);
+	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
