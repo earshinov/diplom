@@ -29,12 +29,12 @@ private:
 
 public:
 
-	static BinaryArray fromInteger(int bits, int integer) {
+	static BinaryArray fromInteger(int bitCount, int bits) {
 		BinaryArray ret;
 		ret.data = std::vector<bool>();
-		ret.data.reserve(bits);
-		for (; bits > 0; integer >>= 1, --bits)
-			ret.data.push_back(integer & 1);
+		ret.data.reserve(bitCount);
+		for (; bitCount > 0; --bitCount, bits >>= 1 )
+			ret.data.push_back(bits & 1);
 		return ret;
 	}
 
