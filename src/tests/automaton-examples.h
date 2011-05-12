@@ -11,6 +11,9 @@ DeterministicTransducerAutomaton createSingleStateNoTransitions();
 // digraph{ 0 -> 0 }
 DeterministicTransducerAutomaton createSingleStateSingleTransition();
 
+// digraph{ 0->0[label='0:0']; 0->0[label='1:0'] }
+DeterministicTransducerAutomaton createSingleStateInformationLoss();
+
 // digraph{ 0->1[label='0:0']; 1->0[label='0:0'] }
 DeterministicTransducerAutomaton createTwoStatesCycle();
 

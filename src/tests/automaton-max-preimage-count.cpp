@@ -23,6 +23,12 @@ BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition)
 	BOOST_CHECK_EQUAL(ret, 1);
 }
 
+BOOST_AUTO_TEST_CASE(testSingleStateInformationLoss)
+{
+	int ret = AutomatonMaxPreimageCount::findMaxPreimageCount(createSingleStateInformationLoss());
+	BOOST_CHECK_EQUAL(ret, AutomatonMaxPreimageCount::PROBABLY_INF);
+}
+
 BOOST_AUTO_TEST_CASE(testTwoStatesCycle)
 {
 	int ret = AutomatonMaxPreimageCount::findMaxPreimageCount(createTwoStatesCycle());

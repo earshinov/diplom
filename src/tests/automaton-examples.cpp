@@ -18,6 +18,12 @@ DeterministicTransducerAutomaton createSingleStateSingleTransition() {
 		IntegerFunction(std::vector<int>(1, 0)), IntegerFunction(std::vector<int>(1, 0)));
 }
 
+// digraph{ 0->0[label='0:0']; 0->0[label='1:0'] }
+DeterministicTransducerAutomaton createSingleStateInformationLoss() {
+	return DeterministicTransducerAutomaton(2, 1, 1,
+		IntegerFunction(std::vector<int>(2, 0)), IntegerFunction(std::vector<int>(2, 0)));
+}
+
 // digraph{ 0->1[label='0:0']; 1->0[label='0:0'] }
 DeterministicTransducerAutomaton createTwoStatesCycle() {
 	int transition[] = { 1, 0 };

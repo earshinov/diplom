@@ -14,6 +14,8 @@ public:
 
 private:
 
+	class OverflowException : public std::exception { };
+
 	class Calc {
 		typedef std::vector<int> counts_t;
 
@@ -44,18 +46,23 @@ private:
 		}
 
 		int calculate(int iterationLimit = -1) {
-			counts_t counts;
-			while(!q.empty() && (iterationLimit < 0 || --iterationLimit >= 0)) {
-				std::swap(counts, q.top());
-				q.pop();
+			try {
+				counts_t counts;
+				while(!q.empty() && (iterationLimit < 0 || --iterationLimit >= 0)) {
+					std::swap(counts, q.top());
+					q.pop();
 
-				FOREACH_RANGE(int, output, automaton.outputSetSize)
-					int sum;
-					add(step(counts, output, &sum));
-					max = std::max(max, sum);
-				FOREACH_END()
+					FOREACH_RANGE(int, output, automaton.outputSetSize)
+						int sum;
+						add(step(counts, output, &sum));
+						max = std::max(max, sum);
+					FOREACH_END()
+				}
+				return q.empty() ? max : PROBABLY_INF;
 			}
-			return q.empty() ? max : PROBABLY_INF;
+			catch(const OverflowException &) {
+				return PROBABLY_INF;
+			}
 		}
 
 	private:
@@ -77,6 +84,8 @@ private:
 				if (count > 0)
 					FOREACH(int, state2, transitionsByOutput[state][output])
 						ret[state2] += count;
+						if (*sum + count < *sum)
+							throw OverflowException();
 						*sum += count;
 					FOREACH_END()
 			FOREACH_END()
