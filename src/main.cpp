@@ -44,6 +44,7 @@ static void usage(std::ostream & o) {
 	    << "  В том или ином виде всегда должны указываться размеры входной и выходной памяти\n";
 }
 
+
 class BadCommandLineException : public std::exception {
 public:
 
@@ -59,7 +60,37 @@ private:
 	std::string message;
 };
 
-int handleRunCmd(int argc, char ** argv) {
+
+// намеренно копируем std::string function, чтобы использовать метод erase()
+static int getFunctionBits(size_t bitCount, std::string function) {
+	// удаляем точки
+	function.erase(std::remove(function.begin(), function.end(), '.'), function.end());
+
+	// проверяем длину столбца функции
+	if (function.size() != bitCount)
+		throw BadCommandLineException(
+			"Количество аргументов функции, заданной через аргумент --func, "
+			"должно соответствовать начальным размерам входной и выходной памяти "
+			"(задаются с помощью аргументов --l-start и --m-start).  "
+			"Длина столбца функции должна составлять 2^{L+M+1}" );
+
+	// первый символ становится младшим битом
+	int bits;
+	for(auto it = function.rbegin(); it != function.rend(); ++it) {
+		bits <<= 1;
+		char c = *it;
+		if (c == '1')
+			bits++;
+		else if (c != '0')
+			throw BadCommandLineException(
+				"Столбец функции должен состоять только из нулей и единиц, "
+				"возможно разделённых точками" );
+	}
+	return bits;
+}
+
+
+static int handleRunCmd(int argc, char ** argv) {
 
 	option longopts[] = {
 		{ "L-start", required_argument, 0, 0 },
@@ -137,36 +168,27 @@ int handleRunCmd(int argc, char ** argv) {
 	if (mEnd == -1) throw BadCommandLineException("Не задан размер выходной памяти");
 	if (one && startFunction.empty()) throw BadCommandLineException("При использовании --one укажите функцию АВВП с помощью аргумента --func");
 	if (!startFunction.empty()) {
-		// удаляем точки
-		startFunction.erase(std::remove(startFunction.begin(), startFunction.end(), '.'), startFunction.end());
-		size_t sz = 1u << (lStart + mStart + 1);
-		if (startFunction.size() != sz)
-			throw BadCommandLineException(
-				"Количество аргументов функции, заданной через аргумент --func, "
-				"должно соответствовать начальным размерам входной и выходной памяти "
-				"(задаются с помощью аргументов --l-start и --m-start).  "
-				"Длина столбца функции должна составлять 2^{L+M+1}" );
-		std::vector<bool> bits;
-		FOREACH(char, c, startFunction)
-			if (c == '1')
-				bits.push_back(true);
-			else if (c == '0')
-				bits.push_back(false);
-			else
-				throw BadCommandLineException(
-					"Столбец функции должен состоять только из нулей и единиц, "
-					"возможно разделённых точками" );
-		FOREACH_END()
-		generateResults(lStart, lEnd, mStart, mEnd, bits, one);
+		int bits = getFunctionBits(1 << (lStart + mStart + 1), startFunction);
+		if (one) {
+			if (lStart <= lEnd && mStart <= mEnd) {
+				std::cout << resultsHeader() << "\n";
+				generateOneResult(lStart, mStart, bits);
+			}
+		}
+		else {
+			std::cout << resultsHeader() << "\n";
+			generateResults(lStart, lEnd, mStart, mEnd, bits);
+		}
 	}
-	else
+	else {
+		std::cout << resultsHeader() << "\n";
 		generateResults(lStart, lEnd, mStart, mEnd);
-
+	}
 
 	return EXIT_SUCCESS;
 }
 
-int handleCmd(int argc, char ** argv) {
+static int handleCmd(int argc, char ** argv) {
 	if (argc < 2) throw BadCommandLineException();
 
 	const char * const cmd = argv[1];
