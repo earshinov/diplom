@@ -205,14 +205,16 @@ public:
 
 		while (calc.hasStatesToProcess()) {
 			int index = calc.getStateToProcess();
-			AutomatonDelayAutomatonState state = calc.getStateByIndex(index);
+			const AutomatonDelayAutomatonState & state = calc.getStateByIndex(index);
+			assert(state.hasSourceState2());
 
 			FOREACH_RANGE(int, input, sourceAutomaton.inputSetSize)
-				assert(state.hasSourceState2());
 				auto first = sourceAutomaton.transition(state.sourceState, input);
-				auto second = sourceAutomaton.transition(state.sourceState2, input);
-				if (first.output == second.output)
-					calc.addStateToProcess(AutomatonDelayAutomatonState(first.state, second.state), index);
+				FOREACH_RANGE(int, input2, sourceAutomaton.inputSetSize)
+					auto second = sourceAutomaton.transition(state.sourceState2, input2);
+					if (first.output == second.output)
+						calc.addStateToProcess(AutomatonDelayAutomatonState(first.state, second.state), index);
+				FOREACH_END()
 			FOREACH_END()
 		}
 

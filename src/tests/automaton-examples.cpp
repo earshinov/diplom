@@ -73,3 +73,11 @@ DeterministicTransducerAutomaton createFiniteMaxPreimageCountExample() {
 		IntegerFunction(std::vector<int>(transition, transition+16)),
 		IntegerFunction(std::vector<int>(output, output+16)));
 }
+
+DeterministicTransducerAutomaton createInfiniteDelayExample() {
+	int transition[] = { 0, 2, 0, 3, 1, 3, 1, 2 }; // (state, input) -> state
+	int output[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
+	return DeterministicTransducerAutomaton(2, 2, 4,
+		IntegerFunction(std::vector<int>(transition, transition+8)),
+		IntegerFunction(std::vector<int>(output, output+8)));
+}

@@ -80,4 +80,15 @@ BOOST_AUTO_TEST_CASE(testFiniteDelayExample)
 	BOOST_CHECK(!ret.hasInformationLoss);
 }
 
+BOOST_AUTO_TEST_CASE(testInfiniteDelayExample)
+{
+	auto ret = AutomatonDelay::findAutomatonDelay(createInfiniteDelayExample());
+	BOOST_CHECK_EQUAL(ret.delayByState[0], 1);
+	BOOST_CHECK_EQUAL(ret.delayByState[1], 0);
+	BOOST_CHECK_EQUAL(ret.delayByState[2], AUTOMATON_DELAY_INF);
+	BOOST_CHECK_EQUAL(ret.delayByState[3], 0);
+	BOOST_CHECK_EQUAL(ret.automatonDelay, AUTOMATON_DELAY_INF);
+	BOOST_CHECK(!ret.hasInformationLoss);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
