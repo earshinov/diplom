@@ -12,8 +12,8 @@ public:
 		inputSetSize(sourceAutomaton.outputSetSize),
 		states(), transitionFunctionBuilder(inputSetSize) {}
 
-	AddProhibitionAutomatonStateRet addState(const ProhibitionAutomatonState & state) {
-		auto ret = states.insert(state);
+	AddProhibitionAutomatonStateRet addState(ProhibitionAutomatonState && state) {
+		auto ret = states.insert(std::move(state));
 		if (ret.inserted)
 			transitionFunctionBuilder.addState();
 		return AddProhibitionAutomatonStateRet(ret.inserted, ret.index);
@@ -28,8 +28,8 @@ public:
 		return states.get(index);
 	}
 
-	ProhibitionAutomaton getResult() const {
-		return ProhibitionAutomaton(inputSetSize, transitionFunctionBuilder.getResult(), states);
+	ProhibitionAutomaton getResult() {
+		return ProhibitionAutomaton(inputSetSize, transitionFunctionBuilder.getResult(), std::move(states));
 	}
 
 private:

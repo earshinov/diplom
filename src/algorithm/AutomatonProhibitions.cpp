@@ -17,8 +17,8 @@ struct AutomatonReturnStrategy {
 
 	static const bool earlyRet = false;
 
-	static result_t getResult(bool hasProhibitions, const ProhibitionAutomaton & prohibitionAutomaton) {
-		return result_t(hasProhibitions, prohibitionAutomaton);
+	static result_t getResult(bool hasProhibitions, ProhibitionAutomaton && prohibitionAutomaton) {
+		return result_t(hasProhibitions, std::move(prohibitionAutomaton));
 	}
 };
 
@@ -34,8 +34,8 @@ struct BooleanReturnStrategy {
 
 		Builder(const DeterministicTransducerAutomaton & sourceAutomaton): states() { }
 
-		AddProhibitionAutomatonStateRet addState(const ProhibitionAutomatonState & state) {
-			auto ret = states.insert(state);
+		AddProhibitionAutomatonStateRet addState(ProhibitionAutomatonState && state) {
+			auto ret = states.insert(std::move(state));
 			return AddProhibitionAutomatonStateRet(ret.inserted, ret.index);
 		}
 
@@ -45,7 +45,7 @@ struct BooleanReturnStrategy {
 
 		void setTransition(int sourceIndex, int sourceAutomatonOutput, int targetIndex) { }
 
-		int getResult() const { return 42; /* dummy */ }
+		int getResult() { return 42; /* dummy */ }
 
 	private:
 
@@ -79,35 +79,35 @@ typename ReturnStrategy::result_t findAutomatonProhibitions(
 	FOREACH_RANGE(int, i, sourceAutomaton.stateSetSize)
 		allSourceStates.insert(i);
 	FOREACH_END()
-	auto ret = builder.addState(ProhibitionAutomatonState(allSourceStates));
+	auto ret = builder.addState(ProhibitionAutomatonState(std::move(allSourceStates)));
 	if (ret.inserted)
 		indexesToProcess.push_back(ret.index);
 
 	while (!indexesToProcess.empty()) {
 		int index = indexesToProcess.front();
 		indexesToProcess.pop_front();
-		const ProhibitionAutomatonState & state = builder.getStateByIndex(index);
+		const ProhibitionAutomatonState & state(builder.getStateByIndex(index));
 
 		/* новые состояния, индексированные выходом */
 		std::vector<ProhibitionAutomatonState::sourcestateset_t> newStatesData(sourceAutomaton.outputSetSize);
 
 		FOREACH_RANGE(int, input, sourceAutomaton.inputSetSize)
 			FOREACH(int, sourceState, state.sourceStates())
-				DeterministicTransducerAutomaton::Transition t = sourceAutomaton.transition(sourceState, input);
+				DeterministicTransducerAutomaton::Transition t(sourceAutomaton.transition(sourceState, input));
 				newStatesData[t.output].insert(t.state);
 			FOREACH_END()
 		FOREACH_END()
 
 		FOREACH_RANGE(int, output, sourceAutomaton.outputSetSize)
 
-			ProhibitionAutomatonState state(newStatesData[output]);
-			hasProhibitions = hasProhibitions || state.empty();
+			hasProhibitions = hasProhibitions || newStatesData[output].empty();
 			if (ReturnStrategy::earlyRet && hasProhibitions)
 				return ReturnStrategy::getResult(hasProhibitions, builder.getResult());
 
-			auto ret = builder.addState(state);
+			auto ret = builder.addState(std::move(newStatesData[output]));
 			builder.setTransition(index, output, ret.index);
-			if (ret.inserted) indexesToProcess.push_back(ret.index);
+			if (ret.inserted)
+				indexesToProcess.push_back(ret.index);
 
 		FOREACH_END()
 	}

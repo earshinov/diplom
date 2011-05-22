@@ -12,12 +12,12 @@ public:
 public:
 
 	DeterministicRecognizerAutomaton(int inputSetSize, int stateSetSize,
-		const IntegerFunction & transitionFunction, const acceptingstates_t & acceptingStates) :
+		IntegerFunction transitionFunction, acceptingstates_t acceptingStates) :
         inputSetSize(inputSetSize), stateSetSize(stateSetSize),
-        transitionFunction(transitionFunction), acceptingStates(acceptingStates)
+        transitionFunction(std::move(transitionFunction)), acceptingStates(std::move(acceptingStates))
     {
-        assert(transitionFunction.size() == static_cast<size_t>(stateSetSize * inputSetSize));
-        assert(acceptingStates.size() == static_cast<size_t>(stateSetSize));
+        assert(this->transitionFunction.size() == static_cast<size_t>(stateSetSize * inputSetSize));
+        assert(this->acceptingStates.size() == static_cast<size_t>(stateSetSize));
     }
 
 	int transition(int state, int input) const {

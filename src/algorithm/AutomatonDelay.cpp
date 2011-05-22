@@ -74,20 +74,20 @@ public:
 		delayByState(nSourceStates, AUTOMATON_DELAY_UNKNOWN),
 		hasInformationLoss(false) { }
 
-	int addStartingState(const AutomatonDelayAutomatonState & state) {
-		auto ret = states.insert(state);
+	int addStartingState(AutomatonDelayAutomatonState && state) {
+		auto ret = states.insert(std::move(state));
 		assert(ret.inserted);
 		startingStateIndexes.push_back(ret.index);
 		return ret.index;
 	}
 
-	void addStateToProcess(const AutomatonDelayAutomatonState & state, int parentIndex) {
-		auto ret = states.insert(state);
+	void addStateToProcess(AutomatonDelayAutomatonState && state, int parentIndex) {
+		auto ret = states.insert(std::move(state));
 		getStateByIndex(parentIndex).addChild(ret.index);
 		if (ret.inserted) {
 			indexesToProcess.push_back(ret.index);
 			/* необходимое и достаточное условие наличия потерь информации - наличие пары (q,q) */
-			if (state.sourceState == state.sourceState2)
+			if (ret.object.sourceState == ret.object.sourceState2)
 				hasInformationLoss = true;
 		}
 	}
@@ -110,13 +110,13 @@ public:
 		delayByState[sourceState] = delay;
 	}
 
-	AutomatonDelayRet calculateResult() {
+	AutomatonDelayRet getResult() {
 		FOREACH(int, index, startingStateIndexes)
 			AutomatonDelayAutomatonState & state = getStateByIndex(index);
 			calculateStateDelay(state);
 			delayByState[state.sourceState] = state.delay;
 		FOREACH_END()
-		return AutomatonDelayRet(delayByState, calculateAutomatonDelay(), hasInformationLoss);
+		return AutomatonDelayRet(std::move(delayByState), calculateAutomatonDelay(), hasInformationLoss);
 	}
 
 private:
@@ -192,7 +192,7 @@ private:
 
 	while (calc.hasStatesToProcess()) {
 		int index = calc.getStateToProcess();
-		const AutomatonDelayAutomatonState & state = calc.getStateByIndex(index);
+		const AutomatonDelayAutomatonState & state(calc.getStateByIndex(index));
 		assert(state.hasSourceState2());
 
 		FOREACH_RANGE(int, input, sourceAutomaton.inputSetSize)
@@ -205,5 +205,5 @@ private:
 		FOREACH_END()
 	}
 
-	return calc.calculateResult();
+	return calc.getResult();
 }

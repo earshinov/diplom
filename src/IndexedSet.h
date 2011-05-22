@@ -19,8 +19,8 @@ public:
 			index(index), object(object), inserted(inserted) { }
 	};
 
-	InsertRet insert(const T & object) {
-		auto ret = set.insert(Indexed(object, byIndex.size()));
+	InsertRet insert(T object) {
+		auto ret = set.insert(Indexed(std::move(object), byIndex.size()));
 		if (ret.second)
 			byIndex.push_back(&ret.first->object);
 		return InsertRet(ret.first->index, ret.first->object, ret.second);
@@ -43,6 +43,11 @@ public:
 		return it == set.end() ? -1 : it->index;
 	}
 
+	int find(T && object) const {
+		auto it = set.find(Indexed(std::move(object), -1));
+		return it == set.end() ? -1 : it->index;
+	}
+
 private:
 
 	struct Indexed {
@@ -57,6 +62,7 @@ private:
 		int index;
 
 		Indexed(const T & object, int index) : object(object), index(index) { }
+		Indexed(T && object, int index) : object(std::move(object)), index(index) { }
 
 		int compareTo(const Indexed & other) const {
 			return object < other.object ? -1 : other.object < object ? 1 : 0;

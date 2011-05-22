@@ -34,8 +34,8 @@ struct AutomatonDelayRet {
 	int automatonDelay;
 	bool hasInformationLoss;
 
-	AutomatonDelayRet(const std::deque<int> & delayByState, int automatonDelay, bool hasInformationLoss) :
-		delayByState(delayByState), automatonDelay(automatonDelay), hasInformationLoss(hasInformationLoss) { }
+	AutomatonDelayRet(std::deque<int> && delayByState, int automatonDelay, bool hasInformationLoss) :
+		delayByState(std::move(delayByState)), automatonDelay(automatonDelay), hasInformationLoss(hasInformationLoss) { }
 };
 
 

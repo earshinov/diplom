@@ -8,8 +8,8 @@ public:
 
 	struct AutomatonProhibitionsRet {
 
-		AutomatonProhibitionsRet(bool hasProhibitions, const ProhibitionAutomaton & prohibitionAutomaton):
-			hasProhibitions(hasProhibitions), automaton(prohibitionAutomaton) {}
+		AutomatonProhibitionsRet(bool hasProhibitions, ProhibitionAutomaton && prohibitionAutomaton):
+			hasProhibitions(hasProhibitions), automaton(std::move(prohibitionAutomaton)) {}
 
 		const bool hasProhibitions;
 		const ProhibitionAutomaton automaton;

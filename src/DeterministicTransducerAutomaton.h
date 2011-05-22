@@ -22,10 +22,10 @@ public:
 	DeterministicTransducerAutomaton(int inputSetSize, int outputSetSize, int stateSetSize,
         IntegerFunction transitionFunction, IntegerFunction outputFunction) :
         inputSetSize(inputSetSize), outputSetSize(outputSetSize), stateSetSize(stateSetSize),
-        transitionFunction(transitionFunction), outputFunction(outputFunction)
+        transitionFunction(std::move(transitionFunction)), outputFunction(std::move(outputFunction))
     {
-        assert(transitionFunction.size() == static_cast<size_t>(stateSetSize * inputSetSize));
-        assert(outputFunction.size() == static_cast<size_t>(stateSetSize * inputSetSize));
+        assert(this->transitionFunction.size() == static_cast<size_t>(stateSetSize * inputSetSize));
+        assert(this->outputFunction.size() == static_cast<size_t>(stateSetSize * inputSetSize));
     }
 
 	Transition transition(int state, int input) const {

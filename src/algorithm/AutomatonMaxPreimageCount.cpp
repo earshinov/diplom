@@ -38,7 +38,7 @@ public:
 		// Мне кажется, число прообразов пустой начальной последовательности логичнее
 		// считать равным единице, чем числу состояний автомата.
 		max = 1;
-		add(counts);
+		add(std::move(counts));
 	}
 
 	int calculate(int iterationLimit = -1) {
@@ -63,16 +63,15 @@ public:
 
 private:
 
-	bool add(const counts_t & counts) {
-		if (processed.find(counts) != processed.end())
+	bool add(counts_t && counts) {
+		if (!processed.insert(counts).second)
 			return false;
-		processed.insert(counts);
-		q.push(counts);
+		q.push(std::move(counts));
 		return true;
 	}
 
-	std::vector<int> step(const std::vector<int> & counts, int output, int * sum) const {
-		std::vector<int> ret(counts.size());
+	counts_t step(const counts_t & counts, int output, int * sum) const {
+		counts_t ret(counts.size());
 		*sum = 0;
 
 		FOREACH_RANGE(size_t, state, counts.size())

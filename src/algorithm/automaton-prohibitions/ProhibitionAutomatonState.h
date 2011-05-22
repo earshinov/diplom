@@ -10,8 +10,8 @@ public:
 
 public:
 
-	ProhibitionAutomatonState(const sourcestateset_t & sourceStates):
-		sourceStates_(sourceStates) {}
+	ProhibitionAutomatonState(const sourcestateset_t & sourceStates) : sourceStates_(sourceStates) {}
+	ProhibitionAutomatonState(sourcestateset_t && sourceStates) : sourceStates_(std::move(sourceStates)) {}
 
 	bool empty() const {
 		return weight() == 0;

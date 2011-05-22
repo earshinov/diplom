@@ -7,10 +7,10 @@
 class BooleanFunction {
 public:
 
-	BooleanFunction(int nArguments, const BinaryArray values):
-		nArguments(nArguments), values(values)
+	BooleanFunction(int nArguments, BinaryArray values):
+		nArguments(nArguments), values(std::move(values))
 	{
-		assert(values.size() == 1u << nArguments);
+		assert(this->values.size() == 1u << nArguments);
 	}
 
 	bool evaluate(int argumentsAsInteger) const {

@@ -16,9 +16,9 @@ public:
 		values[sourceState * inputSetSize + input] = targetState;
 	}
 
-	IntegerFunction getResult() const {
+	IntegerFunction getResult() {
 		// TODO: Check if all transitions are filled
-		return IntegerFunction(values);
+		return IntegerFunction(std::move(values));
 	}
 
 private:
