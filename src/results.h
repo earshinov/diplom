@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 std::string resultsHeader();
 void generateOneResult(int l, int m, int bits);

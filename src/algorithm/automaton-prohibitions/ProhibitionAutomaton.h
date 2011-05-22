@@ -3,9 +3,6 @@
 #include "ProhibitionAutomatonState.h"
 #include "../../DeterministicRecognizerAutomaton.h"
 #include "../../IndexedSet.h"
-#include <cassert>
-#include <vector>
-#include <set>
 
 class ProhibitionAutomaton: public DeterministicRecognizerAutomaton
 {

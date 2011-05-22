@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 
+
 static void usage(std::ostream & o) {
 	o
 		<< "ИСПОЛЬЗОВАНИЕ: diplom КОМАНДА АРГУМЕНТЫ\n" << "\n"
@@ -188,6 +189,7 @@ static int handleRunCmd(int argc, char ** argv) {
 	return EXIT_SUCCESS;
 }
 
+
 static int handleCmd(int argc, char ** argv) {
 	if (argc < 2) throw BadCommandLineException();
 
@@ -209,6 +211,7 @@ static int handleCmd(int argc, char ** argv) {
 	}
 	else throw BadCommandLineException(std::string("Неизвестная команда: '") + cmd + "'");
 }
+
 
 int main(int argc, char ** argv) {
 	try {
