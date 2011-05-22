@@ -76,7 +76,7 @@ static int getFunctionBits(size_t bitCount, std::string function) {
 			"Длина столбца функции должна составлять 2^{L+M+1}" );
 
 	// первый символ становится младшим битом
-	int bits;
+	int bits = 0;
 	for(auto it = function.rbegin(); it != function.rend(); ++it) {
 		bits <<= 1;
 		char c = *it;
