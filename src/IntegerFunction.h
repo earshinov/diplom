@@ -10,8 +10,8 @@ public:
 
 public:
 
-	IntegerFunction(const values_t & values) : values(values) {}
-	IntegerFunction(const values_t && values) : values(values) {}
+	explicit IntegerFunction(const values_t & values) : values(values) {}
+	explicit IntegerFunction(const values_t && values) : values(values) {}
 
 	size_t size() const {
 		return values.size();

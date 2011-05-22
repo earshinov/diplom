@@ -23,7 +23,7 @@ class Calc {
 
 public:
 
-	Calc(const DeterministicTransducerAutomaton & automaton) : automaton(automaton),
+	explicit Calc(const DeterministicTransducerAutomaton & automaton) : automaton(automaton),
 		transitionsByOutput(automaton.stateSetSize, std::vector<std::vector<int> >(automaton.outputSetSize)) {
 
 		FOREACH_RANGE(int, state, automaton.stateSetSize)

@@ -32,7 +32,7 @@ struct BooleanReturnStrategy {
 	typedef class Builder {
 	public:
 
-		Builder(const DeterministicTransducerAutomaton & sourceAutomaton): states() { }
+		explicit Builder(const DeterministicTransducerAutomaton & sourceAutomaton): states() { }
 
 		AddProhibitionAutomatonStateRet addState(ProhibitionAutomatonState && state) {
 			auto ret = states.insert(std::move(state));
@@ -68,7 +68,7 @@ typename ReturnStrategy::result_t findAutomatonProhibitions(
 	std::deque<int> indexesToProcess;
 
 	/* добавляем состояние, не содержащее ни одного состояния исходного автомата */
-	int indexEmpty = builder.addState(ProhibitionAutomatonState(ProhibitionAutomatonState::sourcestateset_t())).index;
+	int indexEmpty = builder.addState(ProhibitionAutomatonState::sourcestateset_t()).index;
 	FOREACH_RANGE(int, i, sourceAutomaton.outputSetSize)
 		builder.setTransition(indexEmpty, i, indexEmpty);
 	FOREACH_END()
@@ -79,7 +79,7 @@ typename ReturnStrategy::result_t findAutomatonProhibitions(
 	FOREACH_RANGE(int, i, sourceAutomaton.stateSetSize)
 		allSourceStates.insert(i);
 	FOREACH_END()
-	auto ret = builder.addState(ProhibitionAutomatonState(std::move(allSourceStates)));
+	auto ret = builder.addState(std::move(allSourceStates));
 	if (ret.inserted)
 		indexesToProcess.push_back(ret.index);
 

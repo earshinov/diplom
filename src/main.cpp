@@ -50,8 +50,8 @@ class BadCommandLineException : public std::exception {
 public:
 
 	BadCommandLineException() { }
-	BadCommandLineException(const std::string & message) : message(message) { }
-	BadCommandLineException(std::string && message) : message(message) { }
+	explicit BadCommandLineException(const std::string & message) : message(message) { }
+	explicit BadCommandLineException(std::string && message) : message(message) { }
 	virtual ~BadCommandLineException() throw() { }
 
 	/* override */ const char * what() const throw() { return message.empty() ? 0 : message.c_str(); }

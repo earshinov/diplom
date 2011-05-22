@@ -8,7 +8,7 @@
 class ProhibitionAutomatonBuilder {
 public:
 
-	ProhibitionAutomatonBuilder(const DeterministicTransducerAutomaton & sourceAutomaton):
+	explicit ProhibitionAutomatonBuilder(const DeterministicTransducerAutomaton & sourceAutomaton):
 		inputSetSize(sourceAutomaton.outputSetSize),
 		states(), transitionFunctionBuilder(inputSetSize) {}
 

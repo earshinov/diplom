@@ -45,5 +45,7 @@ public:
 
 private:
 
+	BinaryArray() { }
+
 	std::vector<bool> data;
 };

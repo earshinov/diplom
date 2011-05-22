@@ -17,28 +17,12 @@ public:
 			acceptingstates_t(states.size(), true)), // все состояния являются допускающими
 		states(std::move(states)) { }
 
-	int findState(const ProhibitionAutomatonState::sourcestateset_t & sourceStates) const {
-		return findState(ProhibitionAutomatonState(sourceStates));
-	}
-
-	int findState(ProhibitionAutomatonState::sourcestateset_t && sourceStates) const {
-		return findState(ProhibitionAutomatonState(std::move(sourceStates)));
-	}
-
 	int findState(const ProhibitionAutomatonState & state) const {
 		return states.find(state);
 	}
 
 	int findState(ProhibitionAutomatonState && state) const {
 		return states.find(std::move(state));
-	}
-
-	bool hasState(const ProhibitionAutomatonState::sourcestateset_t & sourceStates) const {
-		return findState(sourceStates) >= 0;
-	}
-
-	bool hasState(ProhibitionAutomatonState::sourcestateset_t && sourceStates) const {
-		return findState(std::move(sourceStates)) >= 0;
 	}
 
 	bool hasState(const ProhibitionAutomatonState & state) const {

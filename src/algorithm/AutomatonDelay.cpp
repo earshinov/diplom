@@ -33,7 +33,7 @@
 class AutomatonDelayAutomatonState {
 public:
 
-	AutomatonDelayAutomatonState(int sourceState):
+	explicit AutomatonDelayAutomatonState(int sourceState):
 		sourceState(sourceState), sourceState2(-1), children(),
 		delay(AUTOMATON_DELAY_UNKNOWN) { }
 
@@ -69,7 +69,7 @@ IMPLEMENT_COMPARE(AutomatonDelayAutomatonState)
 class AutomatonDelayCalculation {
 public:
 
-	AutomatonDelayCalculation(int nSourceStates):
+	explicit AutomatonDelayCalculation(int nSourceStates):
 		states(), startingStateIndexes(), indexesToProcess(),
 		delayByState(nSourceStates, AUTOMATON_DELAY_UNKNOWN),
 		hasInformationLoss(false) { }

@@ -5,7 +5,7 @@
 class ProhibitionAutomatonTransitionFunctionBuilder {
 public:
 
-	ProhibitionAutomatonTransitionFunctionBuilder(int prohibitionAutomatonInputSetSize) :
+	explicit ProhibitionAutomatonTransitionFunctionBuilder(int prohibitionAutomatonInputSetSize) :
 		inputSetSize(prohibitionAutomatonInputSetSize) {}
 
 	void addState() {
