@@ -77,12 +77,12 @@ private:
 		FOREACH_RANGE(size_t, state, counts.size())
 			int count = counts[state];
 			if (count > 0)
-				FOREACH(int, state2, transitionsByOutput[state][output])
+				for(int state2 : transitionsByOutput[state][output]) {
 					ret[state2] += count;
 					if (*sum + count < *sum)
 						throw OverflowException();
 					*sum += count;
-				FOREACH_END()
+				}
 		FOREACH_END()
 
 		return ret;

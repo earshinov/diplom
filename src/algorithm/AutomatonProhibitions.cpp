@@ -92,10 +92,10 @@ typename ReturnStrategy::result_t findAutomatonProhibitions(
 		std::vector<ProhibitionAutomatonState::sourcestateset_t> newStatesData(sourceAutomaton.outputSetSize);
 
 		FOREACH_RANGE(int, input, sourceAutomaton.inputSetSize)
-			FOREACH(int, sourceState, state.sourceStates())
+			for(int sourceState : state.sourceStates()) {
 				DeterministicTransducerAutomaton::Transition t(sourceAutomaton.transition(sourceState, input));
 				newStatesData[t.output].insert(t.state);
-			FOREACH_END()
+			}
 		FOREACH_END()
 
 		FOREACH_RANGE(int, output, sourceAutomaton.outputSetSize)

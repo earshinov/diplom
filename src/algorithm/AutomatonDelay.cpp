@@ -111,11 +111,11 @@ public:
 	}
 
 	AutomatonDelayRet getResult() {
-		FOREACH(int, index, startingStateIndexes)
+		for(int index : startingStateIndexes) {
 			AutomatonDelayAutomatonState & state = getStateByIndex(index);
 			calculateStateDelay(state);
 			delayByState[state.sourceState] = state.delay;
-		FOREACH_END()
+		}
 		return AutomatonDelayRet(std::move(delayByState), calculateAutomatonDelay(), hasInformationLoss);
 	}
 
@@ -126,7 +126,7 @@ private:
 		thisState.delay = AUTOMATON_DELAY_INF;
 		// реальное значение задержки, которое затем запишем в thisState
 		int delay = 0;
-		FOREACH(int, index, thisState.children)
+		for (int index : thisState.children) {
 			AutomatonDelayAutomatonState & state = getStateByIndex(index);
 			if (state.delay == AUTOMATON_DELAY_UNKNOWN)
 				calculateStateDelay(state);
@@ -135,19 +135,19 @@ private:
 				return;
 			}
 			delay = std::max(delay, state.delay + 1);
-		FOREACH_END()
+		}
 		thisState.delay = delay;
 	}
 
 	int calculateAutomatonDelay() const {
 		int max = 0; // пусть пустой автомат имеет нулевую задержку
-		FOREACH(int, value, delayByState)
+		for (int value : delayByState) {
 			if (value == AUTOMATON_DELAY_INF || value == AUTOMATON_DELAY_UNKNOWN) {
 				max = value;
 				break;
 			}
 			max = std::max(max, value);
-		FOREACH_END()
+		}
 		return max;
 	}
 
