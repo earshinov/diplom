@@ -13,7 +13,8 @@ BOOST_AUTO_TEST_CASE(testEmpty)
 	BOOST_CHECK(ret.automaton.inputSetSize == 0);
 	BOOST_CHECK(ret.automaton.stateSetSize == 1);
 
-	BOOST_CHECK(ret.automaton.hasState({}));
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
 }
 
 BOOST_AUTO_TEST_CASE(testEmptyFast)
@@ -29,8 +30,10 @@ BOOST_AUTO_TEST_CASE(testSingleStateNoTransitions)
 	BOOST_CHECK(ret.automaton.inputSetSize == 0);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
 
-	BOOST_CHECK(ret.automaton.hasState({}));
-	BOOST_CHECK(ret.automaton.hasState({0}));
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
+	sourceStates.insert(0);
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
 }
 
 BOOST_AUTO_TEST_CASE(testSingleStateNoTransitionsFast)
@@ -46,8 +49,10 @@ BOOST_AUTO_TEST_CASE(testSingleStateSingleTransition)
 	BOOST_CHECK(ret.automaton.inputSetSize == 1);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
 
-	BOOST_CHECK(ret.automaton.hasState({}));
-	BOOST_CHECK(ret.automaton.hasState({0}));
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
+	sourceStates.insert(0);
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
 }
 
 BOOST_AUTO_TEST_CASE(testSingleStateSingleTransitionFast)
@@ -63,8 +68,10 @@ BOOST_AUTO_TEST_CASE(testTwoStatesCycle)
 	BOOST_CHECK(ret.automaton.inputSetSize == 1);
 	BOOST_CHECK(ret.automaton.stateSetSize == 2);
 
-	BOOST_CHECK(ret.automaton.hasState({}));
-	BOOST_CHECK(ret.automaton.hasState({0,1}));
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
+	sourceStates.insert(0); sourceStates.insert(1);
+	BOOST_CHECK(ret.automaton.hasState(sourceStates));
 }
 
 BOOST_AUTO_TEST_CASE(testTwoStatesCycleFast)
@@ -80,10 +87,15 @@ BOOST_AUTO_TEST_CASE(testTwoStatesWithProhibition)
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 4);
 
-	int q0 = ret.automaton.findState({0,1});
-	int q1 = ret.automaton.findState({0});
-	int q2 = ret.automaton.findState({1});
-	int q3 = ret.automaton.findState({});
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	int q3 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(0);
+	int q1 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(1);
+	int q0 = ret.automaton.findState(sourceStates);
+	sourceStates.erase(0);
+	int q2 = ret.automaton.findState(sourceStates);
+	// q0 = {0,1}, q1 = {0}, q2 = {1}, q3 = {}
 	BOOST_CHECK(q0 >= 0 && q1 >= 0 && q2 >= 0 && q3 >= 0);
 
 	BOOST_CHECK(ret.automaton.hasTransition(q0, 0, q2));
@@ -109,12 +121,20 @@ BOOST_AUTO_TEST_CASE(testOriginalExample)
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 5);
 
-	int qNone = ret.automaton.findState({});
-	int q1    = ret.automaton.findState({1});
-	int q2    = ret.automaton.findState({2});
-	int q01   = ret.automaton.findState({0,1});
-	int qAll  = ret.automaton.findState({0,1,2,3});
-	BOOST_CHECK(qNone >= 0 && q1 >= 0 && q2 >= 0 && q01 >= 0 && qAll >= 0);
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	int qNone = ret.automaton.findState(sourceStates);
+	sourceStates.insert(1);
+	int q1 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(0);
+	int q01 = ret.automaton.findState(sourceStates);
+	sourceStates.clear();
+	sourceStates.insert(2);
+	int q2 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(0);
+	sourceStates.insert(1);
+	sourceStates.insert(3);
+	int qAll = ret.automaton.findState(sourceStates);
+	BOOST_CHECK(qNone >= 0 && qAll >= 0 && q1 >= 0 && q01 >= 0 && q2 >= 0);
 
 	BOOST_CHECK(ret.automaton.hasTransition(qAll, 0, q01));
 	BOOST_CHECK(ret.automaton.hasTransition(qAll, 1, q2));
@@ -141,14 +161,25 @@ BOOST_AUTO_TEST_CASE(testProhibitionExample)
 	BOOST_CHECK(ret.automaton.inputSetSize == 2);
 	BOOST_CHECK(ret.automaton.stateSetSize == 8);
 
-	int qNone = ret.automaton.findState({});
-	int q1 = ret.automaton.findState({0,1});
-	int q2 = ret.automaton.findState({2,3});
-	int q3 = ret.automaton.findState({1});
-	int q4 = ret.automaton.findState({3});
-	int q5 = ret.automaton.findState({2});
-	int q6 = ret.automaton.findState({0});
-	int qAll = ret.automaton.findState({0,1,2,3});
+	ProhibitionAutomatonState::sourcestateset_t sourceStates;
+	int qNone = ret.automaton.findState(sourceStates);
+	sourceStates.insert(0);
+	int q6 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(1);
+	int q1 = ret.automaton.findState(sourceStates);
+	sourceStates.erase(0);
+	int q3 = ret.automaton.findState(sourceStates);
+	sourceStates.clear();
+	sourceStates.insert(2);
+	int q5 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(3);
+	int q2 = ret.automaton.findState(sourceStates);
+	sourceStates.erase(2);
+	int q4 = ret.automaton.findState(sourceStates);
+	sourceStates.insert(0);
+	sourceStates.insert(1);
+	sourceStates.insert(2);
+	int qAll = ret.automaton.findState(sourceStates);
 
 	BOOST_CHECK(qNone >= 0 && qAll >= 0 &&
 		q1 >= 0 && q2 >= 0 && q3 >= 0 &&
