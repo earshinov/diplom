@@ -5,6 +5,8 @@
 #include <set>
 #include <vector>
 
+#include <boost/foreach.hpp>
+
 
 /* static */ const int AutomatonMaxPreimageCount::PROBABLY_INF = -1;
 
@@ -77,7 +79,7 @@ private:
 		FOREACH_RANGE(size_t, state, counts.size())
 			int count = counts[state];
 			if (count > 0)
-				for(int state2 : transitionsByOutput[state][output]) {
+				BOOST_FOREACH(int state2, transitionsByOutput[state][output]) {
 					ret[state2] += count;
 					if (*sum + count < *sum)
 						throw OverflowException();

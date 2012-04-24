@@ -6,6 +6,8 @@
 #include <deque>
 #include <set>
 
+#include <boost/foreach.hpp>
+
 
 // Потенциальные возможности оптимизации алгоритма определения задержки автомата:
 //
@@ -111,7 +113,7 @@ public:
 	}
 
 	AutomatonDelayRet getResult() {
-		for(int index : startingStateIndexes) {
+		BOOST_FOREACH(int index, startingStateIndexes) {
 			AutomatonDelayAutomatonState & state = getStateByIndex(index);
 			calculateStateDelay(state);
 			delayByState[state.sourceState] = state.delay;
@@ -126,7 +128,7 @@ private:
 		thisState.delay = AUTOMATON_DELAY_INF;
 		// реальное значение задержки, которое затем запишем в thisState
 		int delay = 0;
-		for (int index : thisState.children) {
+		BOOST_FOREACH(int index, thisState.children) {
 			AutomatonDelayAutomatonState & state = getStateByIndex(index);
 			if (state.delay == AUTOMATON_DELAY_UNKNOWN)
 				calculateStateDelay(state);
@@ -141,7 +143,7 @@ private:
 
 	int calculateAutomatonDelay() const {
 		int max = 0; // пусть пустой автомат имеет нулевую задержку
-		for (int value : delayByState) {
+		BOOST_FOREACH(int value, delayByState) {
 			if (value == AUTOMATON_DELAY_INF || value == AUTOMATON_DELAY_UNKNOWN) {
 				max = value;
 				break;
