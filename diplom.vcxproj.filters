@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\AutomatonWithInputOutputMemory.h" />
+    <ClInclude Include="src\BinaryArray.h" />
+    <ClInclude Include="src\BooleanFunction.h" />
+    <ClInclude Include="src\DeterministicRecognizerAutomaton.h" />
+    <ClInclude Include="src\DeterministicTransducerAutomaton.h" />
+    <ClInclude Include="src\IndexedSet.h" />
+    <ClInclude Include="src\IntegerFunction.h" />
+    <ClInclude Include="src\results.h" />
+    <ClInclude Include="src\tests\tests.h">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\automaton-examples.h">
+      <Filter>tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\AutomatonProhibitions.h">
+      <Filter>algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\AutomatonDelay.h">
+      <Filter>algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\AutomatonMaxPreimageCount.h">
+      <Filter>algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\automaton-prohibitions\ProhibitionAutomatonTransitionFunctionBuilder.h">
+      <Filter>algorithm\automaton-prohibitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\automaton-prohibitions\AddProhibitionAutomatonStateRet.h">
+      <Filter>algorithm\automaton-prohibitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\automaton-prohibitions\ProhibitionAutomaton.h">
+      <Filter>algorithm\automaton-prohibitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\automaton-prohibitions\ProhibitionAutomatonBuilder.h">
+      <Filter>algorithm\automaton-prohibitions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm\automaton-prohibitions\ProhibitionAutomatonState.h">
+      <Filter>algorithm\automaton-prohibitions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AutomatonWIthInputOutputMemory.cpp" />
+    <ClCompile Include="src\BinaryArray.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\results.cpp" />
+    <ClCompile Include="src\tests\aiom-automaton.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\automaton-delay.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\automaton-examples.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\automaton-max-preimage-count.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\automaton-prohibitions.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\tests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithm\AutomatonDelay.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithm\AutomatonMaxPreimageCount.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithm\AutomatonProhibitions.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="tests">
+      <UniqueIdentifier>{c4b34dae-33b8-4424-ab58-f68d668c080a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithm">
+      <UniqueIdentifier>{02568153-bc71-4a3c-aec5-600d02901be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithm\automaton-prohibitions">
+      <UniqueIdentifier>{58c764be-87fb-4c7a-9d2d-11d1012de6d2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
