@@ -1,9 +1,7 @@
+#include "getopt_long.h"
 #include "results.h"
 #include "tests/tests.h"
 #include "Utils.h"
-
-#include <getopt.h>
-#include <unistd.h>
 
 #include <algorithm>
 #include <cassert>

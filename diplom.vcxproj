@@ -24,6 +24,7 @@
     <ClInclude Include="src\BooleanFunction.h" />
     <ClInclude Include="src\DeterministicRecognizerAutomaton.h" />
     <ClInclude Include="src\DeterministicTransducerAutomaton.h" />
+    <ClInclude Include="src\getopt_long.h" />
     <ClInclude Include="src\IndexedSet.h" />
     <ClInclude Include="src\IntegerFunction.h" />
     <ClInclude Include="src\results.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\algorithm\AutomatonProhibitions.cpp" />
     <ClCompile Include="src\AutomatonWIthInputOutputMemory.cpp" />
     <ClCompile Include="src\BinaryArray.cpp" />
+    <ClCompile Include="src\getopt_long.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\results.cpp" />
     <ClCompile Include="src\tests\aiom-automaton.cpp" />
