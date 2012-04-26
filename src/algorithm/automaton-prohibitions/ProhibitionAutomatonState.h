@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../Utils.h"
-
 #include <set>
 
 class ProhibitionAutomatonState {
@@ -11,12 +10,8 @@ public:
 
 public:
 
-	/* implicit */ ProhibitionAutomatonState(std::initializer_list<int> sourceStates) :
-		sourceStates_(sourceStates) { }
-	/* implicit */ ProhibitionAutomatonState(const sourcestateset_t & sourceStates) :
-		sourceStates_(sourceStates) { }
-	/* implicit */ ProhibitionAutomatonState(sourcestateset_t && sourceStates) :
-		sourceStates_(std::move(sourceStates)) { }
+	/* implicit */ ProhibitionAutomatonState(const sourcestateset_t & sourceStates) : sourceStates_(sourceStates) {}
+	/* implicit */ ProhibitionAutomatonState(sourcestateset_t && sourceStates) : sourceStates_(std::move(sourceStates)) {}
 
 	bool empty() const {
 		return weight() == 0;

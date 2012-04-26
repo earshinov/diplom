@@ -8,6 +8,8 @@
 #include <deque>
 #include <vector>
 
+#include <boost/foreach.hpp>
+
 
 struct AutomatonReturnStrategy {
 
@@ -92,7 +94,7 @@ typename ReturnStrategy::result_t findAutomatonProhibitions(
 		std::vector<ProhibitionAutomatonState::sourcestateset_t> newStatesData(sourceAutomaton.outputSetSize);
 
 		FOREACH_RANGE(int, input, sourceAutomaton.inputSetSize)
-			for(int sourceState : state.sourceStates()) {
+			BOOST_FOREACH(int sourceState, state.sourceStates()) {
 				DeterministicTransducerAutomaton::Transition t(sourceAutomaton.transition(sourceState, input));
 				newStatesData[t.output].insert(t.state);
 			}
