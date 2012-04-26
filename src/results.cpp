@@ -3,14 +3,16 @@
 #include "algorithm/AutomatonProhibitions.h"
 #include "AutomatonWithInputOutputMemory.h"
 #include "results.h"
+#include "unicode.h"
 
 #include <cassert>
 #include <iostream>
+#include <sstream>
 
-static void writeBits(std::ostream & o, int bitCount, int bits) {
+static void writeBits(std::ostream & out, int bitCount, int bits) {
 	// младший бит выводим первым
 	for (; bitCount > 0; --bitCount, bits >>= 1)
-		std::cout << (bits % 2 ? '1' : '0');
+		out << (bits % 2 ? '1' : '0');
 }
 
 std::string resultsHeader() {
@@ -28,23 +30,24 @@ void generateOneResult(int l, int m, int bits) {
 	auto delayRet = AutomatonDelay::findAutomatonDelay(automaton);
 	int preimageCount = AutomatonMaxPreimageCount::findMaxPreimageCount(automaton);
 
+	std::stringstream ss;
 	// размеры входной и выходной памяти
-	std::cout << l << ',' << m << ',';
+	ss << l << ',' << m << ',';
 	// столбец функции
-	writeBits(std::cout, bitCount, bits);
-	std::cout << ',';
+	writeBits(ss, bitCount, bits);
+	ss << ',';
 	// наличие запретов
-	std::cout << (hasProhibitions ? "Есть" : "Нет");
-	std::cout << ',';
+	ss << (hasProhibitions ? "Есть" : "Нет");
+	ss << ',';
 	// задержка
-	delayRet.automatonDelay == AUTOMATON_DELAY_INF ? std::cout << "Бескон" : std::cout << delayRet.automatonDelay;
-	std::cout << ',';
+	delayRet.automatonDelay == AUTOMATON_DELAY_INF ? ss << "Бескон" : ss << delayRet.automatonDelay;
+	ss << ',';
 	// наличие потерь информации
-	std::cout << (delayRet.hasInformationLoss ? "Есть" : "Нет");
-	std::cout << ',';
+	ss << (delayRet.hasInformationLoss ? "Есть" : "Нет");
+	ss << ',';
 	// максимальное число прообразов
-	preimageCount == AutomatonMaxPreimageCount::PROBABLY_INF ? std::cout << "Бескон" : std::cout << preimageCount;
-	std::cout << '\n';
+	preimageCount == AutomatonMaxPreimageCount::PROBABLY_INF ? ss << "Бескон" : ss << preimageCount;
+	std::cout << U(ss.str()) << std::endl;
 }
 
 void generateResults(int lStart, int lEnd, int mStart, int mEnd, int bits /* = 0 */) {

@@ -1,6 +1,7 @@
 #include "getopt_long.h"
 #include "results.h"
 #include "tests/tests.h"
+#include "unicode.h"
 #include "Utils.h"
 
 #include <algorithm>
@@ -8,11 +9,13 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 
 static void usage(std::ostream & o) {
-	o
+	std::stringstream ss;
+	ss
 		<< "ИСПОЛЬЗОВАНИЕ: diplom КОМАНДА АРГУМЕНТЫ\n" << "\n"
 	    << "Доступные команды:\n"
 	    << "\n"
@@ -42,6 +45,7 @@ static void usage(std::ostream & o) {
 	    << "  Пример использования: diplom run -M 1 -L 2 --func=0100.0010.0001.1000\n"
 	    << "  В том или ином виде всегда должны указываться\n"
 	    << "  размеры входной и выходной памяти\n";
+	o << U(ss.str());
 }
 
 
@@ -217,7 +221,7 @@ int main(int argc, char ** argv) {
 		return handleCmd(argc, argv);
 	}
 	catch(const BadCommandLineException & e) {
-		if (e.what()) std::cerr << e.what() << "\n";
+		if (e.what()) std::cerr << U(e.what()) << "\n";
 		usage(std::cerr);
 		return EXIT_FAILURE;
 	}

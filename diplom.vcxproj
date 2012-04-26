@@ -30,6 +30,7 @@
     <ClInclude Include="src\results.h" />
     <ClInclude Include="src\tests\automaton-examples.h" />
     <ClInclude Include="src\tests\tests.h" />
+    <ClInclude Include="src\unicode.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +48,7 @@
     <ClCompile Include="src\tests\automaton-max-preimage-count.cpp" />
     <ClCompile Include="src\tests\automaton-prohibitions.cpp" />
     <ClCompile Include="src\tests\tests.cpp" />
+    <ClCompile Include="src\unicode.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FF0514F3-D014-4198-A412-200DE62318D6}</ProjectGuid>

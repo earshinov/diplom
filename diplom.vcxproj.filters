@@ -41,6 +41,7 @@
       <Filter>algorithm\automaton-prohibitions</Filter>
     </ClInclude>
     <ClInclude Include="src\getopt_long.h" />
+    <ClInclude Include="src\unicode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AutomatonWIthInputOutputMemory.cpp" />
@@ -75,6 +76,7 @@
       <Filter>algorithm</Filter>
     </ClCompile>
     <ClCompile Include="src\getopt_long.cpp" />
+    <ClCompile Include="src\unicode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="tests">
