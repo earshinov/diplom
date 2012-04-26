@@ -41,7 +41,7 @@
 
 #define BADCH  '?'
 #define BADARG ':'
-#define EMSG   ""
+#define EMSG   (char *)("")
 
 int   opterr = 1;   /* if error message should be printed */
 int   optind = 1;   /* index into parent argv vector */
