@@ -78,13 +78,14 @@ private:
 
 		FOREACH_RANGE(size_t, state, counts.size())
 			int count = counts[state];
-			if (count > 0)
+			if (count > 0) {
 				BOOST_FOREACH(int state2, transitionsByOutput[state][output]) {
 					ret[state2] += count;
 					if (*sum + count < *sum)
 						throw OverflowException();
 					*sum += count;
 				}
+			}
 		FOREACH_END()
 
 		return ret;
